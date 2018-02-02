@@ -8,9 +8,10 @@ There's been no activity since you came here.
 </body>
 </html>
 <script>
-  var host = window.location.host;
-  var ws = new WebSocket('ws://'+host+'/ws');
-  var $message = $('#message');
+  ws_scheme = window.location.protocol == 'https:' ? 'wss://' : 'ws://'
+  host = window.location.host;
+  ws = new WebSocket(ws_scheme + host + '/ws');
+  $message = $('#message');
   ws.onmessage = function(ev){
     document.write(ev['data'] + '<br>')
   }
