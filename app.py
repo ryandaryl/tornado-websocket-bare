@@ -1,5 +1,5 @@
 from tornado import websocket, web, ioloop
-import json
+import os, json
 
 cl = []
 
@@ -44,5 +44,6 @@ app = web.Application([
 ])
 
 if __name__ == '__main__':
-    app.listen(8888)
+    port = int(os.environ.get("PORT", 5000))
+    app.listen(port)
     ioloop.IOLoop.instance().start()
