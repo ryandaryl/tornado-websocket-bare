@@ -4,6 +4,7 @@
 </head>
 <html>
 <body>
+There's been no activity since you came here.
 </body>
 </html>
 <script>
@@ -11,6 +12,6 @@
   var ws = new WebSocket('ws://'+host+'/ws');
   var $message = $('#message');
   ws.onmessage = function(ev){
-    console.log(ev['data'])
+    document.write(ev['data'] + '<br>')
   }
 </script>

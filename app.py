@@ -3,13 +3,17 @@ from tornroutes import route
 import os
 
 client_list = []
+message = 'Someone else just visited, or refreshed their browser.'
+
+def message_all(message):
+    for client in client_list:
+        client.write_message(message)
 
 @route('/')
 class IndexHandler(web.RequestHandler):
     def get(self):
         self.render("index.html")
-        for client in client_list:
-            client.write_message("I'm here.")
+        message_all(message)
 
 class SocketHandler(websocket.WebSocketHandler):
     def check_origin(self, origin):
