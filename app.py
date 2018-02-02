@@ -1,13 +1,15 @@
 from tornado import websocket, web, ioloop
+from tornroutes import route
 import os
 
 client_list = []
 
+@route('/')
 class IndexHandler(web.RequestHandler):
     def get(self):
         self.render("index.html")
-        for c in client_list:
-            c.write_message("I'm here.")
+        for client in client_list:
+            client.write_message("I'm here.")
 
 class SocketHandler(websocket.WebSocketHandler):
     def check_origin(self, origin):
@@ -22,11 +24,7 @@ class SocketHandler(websocket.WebSocketHandler):
             client_list.remove(self)
 
 
-app = web.Application([
-    (r'/', IndexHandler),
-    (r'/ws', SocketHandler),
-    (r'/(favicon.ico)', web.StaticFileHandler, {'path': '../'}),
-])
+app = web.Application(route.get_routes() + [(r'/ws', SocketHandler)])
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
